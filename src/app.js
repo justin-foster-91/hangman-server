@@ -27,11 +27,17 @@ app.get('/play', (req, res) => {
   req.app.get('db')('game_states')
     .where({})
     .then((gameStates) => {
-      res.send({
-        secretTarget: secret_target, 
-        setTarget: target_word,
-        lettersGuessed: letters_guessed,
-      })
+      if (gameStates.length === 0){
+        res.send({
+          message: "Empty"
+        })
+      } else{
+        res.send({
+          secretTarget: gameStates[0].secret_target, 
+          targetWord: gameStates[0].target_word,
+          lettersGuessed: gameStates[0].letters_guessed,
+        })
+      }
     })
 })
 
